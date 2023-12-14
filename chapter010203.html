@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>{{instance1}}</h3>
+        <my-global-component></my-global-component>
+        <my-local-component></my-local-component>
+    </div>
+    <hr>
+    <div id="app2">
+        <h3>{{instance2}}</h3>
+        <my-global-component></my-global-component>
+        <my-local-component></my-local-component>
+    </div>
+    <hr>
+    <div id="app3">
+        <h3>전역, 지역 컴포넌트</h3>
+        <todo-footer></todo-footer>
+        <my-local-todo-footer></my-local-todo-footer>
+    </div>
+    <div id="app4">
+        <h3>뷰 컴포넌트 통신</h3>
+        <my-component1></my-component1>
+        <my-component2></my-component2>
+    </div>
+    <div id="app5">
+        <h3>prop 속성을 사용한 데이터 전달</h3>
+        <child-component v-bind:propsdata="message"></child-component>
+    </div>
+    <div id="app6">
+        <h3>이벤트를 발생시키고 수신하기</h3>
+        <child-component v-on:show-log="printText"></child-component>
+    </div>
+    <div id="app7">
+        <h3>이벤트 버스 사용</h3>
+        <child-component></child-component>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+
+        function createFooterTag() {
+            return '<p>This is another global child component</p>';
+        }
+
+        // 전역 컴포넌트
+        Vue.component('my-global-component', {
+            template : '<div>전역 컴포넌트가 등록되었습니다!</div>'
+        });
+
+        // 지역 컴포넌트
+        const cmp = {
+            template : '<div>지역 컴포넌트가 등록되었습니다!</div>'
+        };
+
+        // 첫번째 인스턴스
+        new Vue({
+            el : '#app' ,
+            data : {
+                message : 'Hellow Vue.js!'
+            },
+            beforeCreate : function () {
+                console.log('beforeCreate');
+            },
+            created : function () {
+                console.log('created');
+            }, 
+            beforeMount : function () {
+                console.log('beforeMount');
+            }, 
+            mounted : function () {
+                console.log('mounted');
+                this.instance1 = '첫번째 인스턴스 영역';
+                this.instance2 = '두번째 인스턴스 영역';
+            }, 
+            beforUpdate : function () {
+                console.log('beforUpdate');
+            }, 
+            updated : function () {
+                console.log('updated');
+            }, 
+            beforeDestroy : function () {
+                console.log('beforeDestroy');
+            }, 
+            destroyed : function () {
+                console.log('destroyed');
+            }, 
+            components : {
+                'my-local-component' : cmp 
+            }
+
+        });
+
+        // 두번째 인스턴스
+        new Vue({
+            el : '#app2'
+        });
+
+
+        
+        // 실습
+        // 'todo-footer' 컴포넌트 전역 등록
+        // 'todo-footer' 컴포넌트 지역 등록
+        // 전역 컴포넌트
+        Vue.component('todo-footer', {
+            template : createFooterTag()
+        });
+
+        
+        // 지역 컴포넌트
+        const localCmpFooter = {
+            template : createFooterTag()
+        };
+
+        new Vue({
+            el : '#app3',
+            data : {
+                message : 'This is a parent component'
+            },
+            components : {
+                'my-local-todo-footer' : localCmpFooter
+            }
+        });
+
+
+        // 뷰 컴포넌트 통신
+        // 첫번째 컴포넌트
+        const cmp1 = {
+            template : '<div>첫 번째 지역 컴포넌트 : {{ cmp1Data }} </div>',
+            data : function() {
+                return {
+                    cmp1Data : 100
+                }
+            }
+        };
+
+        // 두번째 컴포넌트
+        // cmp1 component의 data에 접근할 수 없음!, 다른 component의 값 참조 못함!(Vue는 컴포넌트 각각 고유한 유효범위를 가진다)
+        // 그런데 실행하면 스크립트 오류는 안나네..
+        const cmp2 = {
+            template : '<div>두 번째 지역 컴포넌트 : {{ cmp2Data}} </div>',
+            data : function() {
+                return {
+                    cmp2Data : cmp1.data.cmp1Data
+                }
+            }
+        };
+
+        // 인스턴스
+        new Vue({
+            el : '#app4',
+            components : {
+                'my-component1' : cmp1,
+                'my-component2' : cmp2
+            }
+        }); 
+
+        // 상위 컴포넌트에서 하위 컴포넌트로 데이터 전달하기
+        // Vue에서는 상위 컴포넌트에서 하위 컴포넌트로 데이터를 전달(props속성) 하고 하위 컴포넌트에서는 상위 컴포넌트로 이벤트를 보낸다,(이벤트 두번째 인자값에 값을 보내거나, 이벤트 버스를 활용하여 데이터를 보낼수도 있음)
+        Vue.component('child-component', {
+            props : ['propsdata'],
+            template : '<p>{{propsdata}}</p>',
+        });
+
+        new Vue({
+            el : '#app5',
+            data : {
+                message : 'Hello Vue! passed from Parent Component'
+            }
+        });
+
+
+        // 하위 컴포넌트에서 상위 컴포넌트로 이벤트 전달하기
+        // 이벤트 발생은 $emit() 속성 사용하여 구현
+        // 이벤트 수신은 v-on:  속성 사용하여 구현
+        Vue.component('child-component', {
+            template : '<button v-on:click="showLog">show</button>',
+            methods : {
+                showLog : function() {
+                    this.$emit('show-log'); // 이벤트 발생 로직
+                }
+            }
+        });
+
+        new Vue({
+            el : '#app6',
+            data : {
+                message : 'Hello Vue! passed from Parent Component'
+            },
+            methods : {
+                printText : function() {
+                    console.log('receiced an event');
+                }
+            }
+        });
+
+        // 이벤트 버스
+        // 이벤트 버스를 사용하면 같은 레벨의 컴포넌트간에도 통신을 할 수 있음
+        // 이벤트 버스 인스턴스 생성 (이벤트 버스는 별도로 인스턴스를 생성해서 사용해야함)
+        const eventBus = new Vue();
+
+        // 컴포넌트 생성
+        Vue.component('child-component', {
+            template : '<div>하위 컴포넌트 영역입니다.<button v-on:click="sendEvent">show</button></div>',
+            methods : {
+                sendEvent : function() {
+                    // 이벤트를 보낼때는 $emit을 사용함
+                    eventBus.$emit('triggerEventBus', 100);
+                },
+            }
+        });
+
+        // 인스턴스 생성
+        const recive = new Vue({
+            el : '#app7',
+            created : function() {
+                // 이벤트를 받을때는 $.on을 사용함
+                eventBus.$on('triggerEventBus', function(value) {
+                    console.log('이벤트를 전달받음, 전달받은값 : ', value);
+                });
+            }
+        });
+
+        console.log('###recive : ', recive);
+
+
+
+
+        // 클로저 테스트
+        function test_closure(){
+            let count = 0
+             
+            this.plus = function() {
+                count ++;
+                return count;
+            }
+
+            this.minus = function() {
+                count --;
+                return count;
+            }
+            
+            return count;
+        }
+
+
+        const ccc = new test_closure();
+        console.log(ccc.minus());
+        console.log(ccc.plus());
+
+
+    </script>
+</body>
+</html>

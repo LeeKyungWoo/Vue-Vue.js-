@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>네스티드 라우터, 네임드 뷰</title>
+  <p>*네스티드 라우터는 화면을 구성하는 컴포넌트의 수가 적을때는 유용하지만, 한번에 더 많은 컴포넌트를 표시하는데는 한계가 있습니다. 이 문제는 네임드 뷰를 사용하여 해결할 수 있습니다!!<br>nested router는 중첩이지만, named view는 동일한 레벨의 컴포넌트가 여러개 동시에 표시는 구조임</p>
+</head>
+<body>
+  <div id="app">
+    <h1>Vue Nested Router</h1>
+    <router-link to="/user">Go to User</router-link>    <!-- a태그로 변환됨(to에 있는 url 값에 해당하는 컴포넌트로 이동함)-->
+    <router-view></router-view> <!-- router-link의 to에 값에 따라 갱신되는 화면 영역 -->
+  </div>
+  <hr>
+  <div id="app2">
+    <h1>Named View</h1>
+    <!-- 라우팅 영역 정의-->
+    <router-view name="header"></router-view>
+    <router-view></router-view> <!-- name이 없는경우 디폴트-->
+    <router-view name="footer"></router-view>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+  <script>
+    // 1. Nested Router(라우터안에 라우터가 있는 구조임, 컴포넌트 수가 적을땐 유용하지만, 많은 컴포넌트를 표시하는데는 한계가 있음!!, 그럴땐 Named View를 사용해야함!)
+    // 브라우저의 url에 router-link tag의 to 속성의 값을 넣고 접속하면 해당 컴포넌트가 표시됨!!
+    // 하위1 컴포넌트 생성(얘도 router를 가진다.. nestedRouter!)
+    const user = {
+      template : `
+        <div>
+            User Component<br/>
+            <router-link to="/user/posts">Go to Post</router-link>
+            <router-link to="/user/profile">Go to Profile</router-link>
+            <router-view></router-view>
+        </div>
+      `
+    };
+
+    // 위의 user 컴포넌트의 router에 아래 userProfile, userPost 컴포넌트가 들어가게 됨
+    const userProfile = { template: '<div>user Profile</div>' };
+    const userPost = { template: '<div>user Post</div>' };
+
+    // 네스티드 라우팅 정의(children에 컴포넌트들을 등록)
+    const routes = [
+      { 
+        path: '/user',
+        component: user,
+        children: [
+          {
+            path : 'posts',
+            component: userPost,
+          },
+          {
+            path: 'profile',
+            component: userProfile,
+          },
+        ]
+      },
+    ];
+
+    // 뷰 라우터 정의
+    const router = new VueRouter({
+      routes
+    });
+
+    const app = new Vue({
+      router : router
+    }).$mount('#app');
+
+
+
+    // 2. NemdView
+    // 컴포넌트 내용 정의
+    const body = { template : '<div>This is Body</div>' };
+    const header = { template : '<div>This is Header</div>' };
+    const footer = { template : '<div>This is Footer</div>' };
+
+    const loginBody = { template : '<div>This is loginBody</div>' };
+    const loginHeader = { template : '<div>This is loginHeader</div>' };
+    const loginFooter = { template : '<div>This is loginFooter</div>' };
+
+    // 뷰 라우터 생성, 위 html의 <router-view>의 name속성과 component들을 연결
+    const router2 = new VueRouter({
+      routes: [
+        {
+          path:'/',
+          components: {
+            default: body,
+            header: header,
+            footer: footer
+          }
+        }
+        ,{
+          path:'/login',
+          components: {
+            default: loginBody,
+            header: loginHeader,
+            footer: loginFooter
+          }
+        }
+      ]
+    });
+
+    // 뷰 인스턴스 생성 후 라우터 연결하여 위 html의 app2 div에 mount
+    const app2 = new Vue({
+      router : router2
+    }).$mount('#app2');
+
+  </script>
+</body>
+</html>
