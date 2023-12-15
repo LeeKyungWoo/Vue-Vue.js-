@@ -53,7 +53,7 @@
         });
 
         // 지역 컴포넌트
-        var cmp = {
+        const cmp = {
             template : '<div>지역 컴포넌트가 등록되었습니다!</div>'
         };
 
@@ -112,7 +112,7 @@
 
         
         // 지역 컴포넌트
-        var localCmpFooter = {
+        const localCmpFooter = {
             template : createFooterTag()
         };
 
@@ -129,7 +129,7 @@
 
         // 뷰 컴포넌트 통신
         // 첫번째 컴포넌트
-        var cmp1 = {
+        const cmp1 = {
             template : '<div>첫 번째 지역 컴포넌트 : {{ cmp1Data }} </div>',
             data : function() {
                 return {
@@ -141,7 +141,7 @@
         // 두번째 컴포넌트
         // cmp1 component의 data에 접근할 수 없음!, 다른 component의 값 참조 못함!(Vue는 컴포넌트 각각 고유한 유효범위를 가진다)
         // 그런데 실행하면 스크립트 오류는 안나네..
-        var cmp2 = {
+        const cmp2 = {
             template : '<div>두 번째 지역 컴포넌트 : {{ cmp2Data}} </div>',
             data : function() {
                 return {
@@ -201,7 +201,7 @@
         // 이벤트 버스
         // 이벤트 버스를 사용하면 같은 레벨의 컴포넌트간에도 통신을 할 수 있음
         // 이벤트 버스 인스턴스 생성 (이벤트 버스는 별도로 인스턴스를 생성해서 사용해야함)
-        var eventBus = new Vue();
+        const eventBus = new Vue();
 
         // 컴포넌트 생성
         Vue.component('child-component', {
@@ -215,7 +215,7 @@
         });
 
         // 인스턴스 생성
-        var recive = new Vue({
+        const recive = new Vue({
             el : '#app7',
             created : function() {
                 // 이벤트를 받을때는 $.on을 사용함

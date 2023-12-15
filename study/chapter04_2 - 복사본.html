@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>네스티드 라우터, 네임드 뷰</title>
+  <p>*네스티드 라우터는 화면을 구성하는 컴포넌트의 수가 적을때는 유용하지만, 한번에 더 많은 컴포넌트를 표시하는데는 한계가 있습니다. 이 문제는 네임드 뷰를 사용하여 해결할 수 있습니다!!<br>nested router는 중첩이지만, named view는 동일한 레벨의 컴포넌트가 여러개 동시에 표시는 구조임</p>
+</head>
+<body>
+  <div id="app">
+    <h1>네임드 뷰 라우터</h1>
+    <!-- 컴포넌트가 뿌려질 영역 -->
+    <router-view name="header"></router-view>
+    <router-view></router-view>
+    <router-view name="footer"></router-view>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+  
+  <script>
+    // 컴포넌트 내용 정의
+    const header  = { template: '<div>Header Component</div>' };
+    const body    = { template: '<div>Body Component</div>' };
+    const footer  = { template: '<div>Footer Component</div>' };
+  
+    const router = new VueRouter({
+      routes: [
+        {
+          path:'/',
+          components: {
+            default: body,
+            header: header,
+            footer: footer
+          }
+        }
+      ]
+    });
+  
+    const app = new Vue({
+      router
+    }).$mount('#app');
+  
+  </script>
+</body>
+</html>
