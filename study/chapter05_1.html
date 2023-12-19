@@ -32,7 +32,66 @@
         <!-- {{ if(true) {return 100} }} -->  <!-- X, 분기 구문은 사용 불가능-->
         <!-- {{ true ? 100 : 0 }} -->  <!-- o, 삼항 연산자 표현 가능 -->
         <!-- {{ message.split('').reverse().join('') }} -->   <!-- X, 복잡한 연산은 인스턴스 안에서 수행해야함(하지만 표시는 가능하네..)-->
-        <!-- {{ reversedMessage }} -->   <!-- o, 스크립트에서 computed 속성으로 계산한 후 최종 값만 표현-->
+        <p>{{ reversedMessage }}</p>   <!-- o, 스크립트에서 computed 속성으로 계산한 후 최종 값만 표현-->
+    </div>
+
+    <div id="app4">
+        <h1>디렉티브</h1>
+        <p>뷰 디렉티브란 HTML 태그 안에 v- 접두사를 가지는 모든 속성들을 의미합니다.</p>
+        <!-- 자주사용되는 디렉티브들-->
+        <a v-if="flag">두잇 Vue.js</a> <!-- v-if :  뷰 데이터 값이 true이면 화면에 보이고, false이면 안보이게됨--> 
+        <ul>
+            <li v-for="system in systems">{{ system }}</li> <!-- v-for : 지정한 뷰 데이터의 개수만큼 해당 html 태그를 반복 출력 -->
+        </ul>
+        <p v-show="flag">두잇 Vue.js</p>    <!-- v-show : v-if와 유사하게 데이터의 진위 여부에 따라 해당 html 태그를 화면에 표시하거나, 표시하지 않음. 다만 v-if는 태그자체를 삭제하지만, v-show는 css로 display none으로 숨김 -->
+        <h5 v-bind:id="uid">뷰 입문서</h5>  <!-- v-bind : html 태그의 기본 속성과 뷰 데이터 속성을 연결-->
+        <button v-on:click="popupAlert">경고 창 버튼</button>   <!-- v-on : 화면 요소의 이벤트를 감지하여 처리할때 사용 -->
+        <!-- v-model : form에서 주로 사용되는 속성입니다. 폼에 입력한 값을 뷰 인스턴스의 데이터와 즉시 동기화 합니다. 화면에 입력된 값을 저장하여 서버에 보내거나 watch와 같은 고급 속성을 이용하여
+                       추가 로직을 수행할 수 있습니다. <input>, <select>, <textarea> 태그에만 사용할 수 있습니다.
+        -->
+    </div>
+
+    <div id="app5">
+        <h1>이벤트 처리</h1>
+        <button v-on:click="clickButton(10)">클릭이벤트에 파라미터 사용</button> <!-- click 이벤트에 파라미터 전달가능-->
+        <h1>이벤트 인자를 이용해 화면 요소의 돔 이벤트에 접근하기</h1>
+        <button v-on:click="clickButton2">클릭</button>
+    </div>
+
+    <div id="app6">
+        <h1>고급 템플릿 기법</h1>
+        <p>고급 템플릿 기법은 실제 어플리케이션을 개발할 때 유용한 속성으로, 앞에서 배운 데이터 바인딩, 디렉티브와 같은 기본적인 문법과 함께 사용됩니다.</p>
+        <p>{{ reversedMessage }}</p>
+        <h1>computed 속성과 methods 속성의 차이점</h1>
+        <p>가장 큰 차이점은 methods 속성은 호출할 때만 해당 로직이 수행되고, computed 속성은 대상 데이터의 값이 변경되면 자동적으로 수행된다는 것입니다. 다시 말해 수동적으로 데이터를 갱신하느냐, 능동적으로 데이터를 갱신하느냐의 차이점이 있습니다.</p>
+        <p>{{message}}</p>
+        <button v-on:click="reverseMsg">문자열 역순(methods)</button>
+        <p>{{message2}}</p>
+        <h1>watch 속성</h1>
+        <p>witch 속성은 데이터 변화를 감지하여 자동으로 특정 로직을 수행합니다. cpmputed 속성과 유사하지만, computed 속성은 내장 API를 활용한 간단한 연산 정도로 적합한 반면에, watch 속성은 데이터 호출과 같이 시간이 상대적으로 더 많이 소모되는 비동기 처리에 적합합니다.</p>
+        <!--v-model 디렉티브로 연결하여 입력값에 변화가 있을 때마다 watch 속성에서 변화된 값을 감지-->
+        <input v-model="message3">
+    </div>
+
+    <!-- 직접해보기!-->
+    <div id="app7">
+        <h1>직접해보기</h1>
+        <h2>{{}}를 이용해 데이터를 바인딩하기</h2>
+        <p>{{ app7message1 }}</p>
+        <p>{{ app7message2 }}</p>
+
+        <h2>v-bind 디렉티브를 이용해 데이터 바인딩하기</h2>
+        <p v-bind:id="app7_p1"></p>
+
+        <h2>v-on 디렉티브를 이용해 클릭 이벤트 처리하기</h2>
+        <button v-on:click="app7Button1Click">클릭!!</button>
+
+        <h2>v-if 디렉티브 조건에 따라 화면이 어떻게 바뀌는지 확인하기</h2>
+        <button v-on:click="app7Button2Click">여기클릭</button>
+        <ul v-if="app7UlFlag">
+            <li>1</li>
+            <li>2</li>
+        </ul>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script> <!-- 뷰 리소스 CDN-->
@@ -63,14 +122,109 @@
                 message : 'Hello Vue.js!'
             },
             computed : {
-                reversedMessage : () => {
+                reversedMessage : function() {
                     // 캐싱도 됨!!
-                    return this.message.split('').reserse().join('');
+                    return this.message.split('').reverse().join('');
                 }
             }
         });
 
 
+        new Vue({
+            el : '#app4',
+            data : {
+                flag : false,        // 위의 v-if의 조건값인 flag 값에 따라 '두잇 Vue.js' 텍스트를 화면에 표시하거나 표시하지 않음
+                systems : ['android', 'ios', 'window'],     // 뷰 데이터 systems 가 배열이기 때문에, 위 v-for에서 systems 갯수만큼 반복하여 {{ system }} 으로 각 요소의 값을 화면에 표시
+                uid : 10    // html 태그의 id 속성을 뷰 데이터에 선언한 uid 값과 연결하여 화면에 표시
+            },
+            methods : {
+                popupAlert : function() {   // v-on:click="popupAlter"로 클릭시 popupAlter function 호출됨
+                    return alert('경고 창 표시');
+                }
+            }
+        });
+
+        new Vue({
+            el : '#app5',
+            methods : {
+                clickButton : function(num) {  // v-on:clic="clickButton(10)" -> 10을 파라미터로 넘겼기 때문에, 여기서 받을 수 있음
+                    alert('click : ' + num);
+                },
+                clickButton2 : function(event) { 
+                    console.log(event);
+                }
+            }
+        });
+
+        new Vue({
+            el : '#app6',
+            data : {
+                message : 'Hello Vue.js!',
+                message2 : 'Hello Vue.js!',
+                message3 : 'Hello Vue.js!'
+            },
+            computed : {
+                // computed 속성성은 데이터 연산들을 정의하는 영역입니다.
+                // * method는 호출할때만 해당 로직이 수행되고, computed는 대상 데이터의 값이 변경되면 자동적으로 수행됨
+                reversedMessage : function()  {
+                    console.log('reversedMessage computed call');
+                    console.log('this.message1 : ' + this.message);
+                    this.message = this.message.split('').reverse().join('');
+                    console.log('this.message2 : ' + this.message);
+                    return this.message;
+                }
+            },
+            methods : {
+                reverseMsg : function() {
+                    console.log('reverseMsg method call');
+                    console.log('this.message1 : ' + this.message2);
+                    this.message2 = this.message2.split('').reverse().join('');
+                    console.log('this.message2 : ' + this.message2);
+                    return this.message2;
+                }
+            },
+            watch : {
+                message3 : function(data) {
+                    // v-model="message3" -> input에 입력값이 바뀔때마다 호출되네, onchange 비슷한듯
+                    // 문자열은 `(백틱)을 사용하여 표현하면 여러줄에 걸쳐 표시할 수 있음
+                    // 그리고 문자열 중간에 변수 삽입 시 문자열을 쪼개지 않고도 동적으로 표시할 수 있음. ex : `Hello, ${this.name}, how are you?` 
+                    console.log(`message의 
+                    값이 바뀝니다 : ` + data);
+
+                    // 뜬금없는 번외인데, 아래 소스의 newObj1변수에 ...문법으로  ...obj1 이렇게 쓰고있는데,, obj1은 obj1 변수임, ...obj1을 하게되면 복사한다는 의미
+                    // let obj1 = {
+                    //     pro1 : '111',
+                    //     pro2 : '222'
+                    // };
+
+                    // let newObj1 = {
+                    //     name : 'aaa',
+                    //     ...obj1
+                    // }
+                }
+            }
+        });
+
+
+        new Vue({
+            el : '#app7',
+            data : {
+                app7message1 : '메시지1',
+                app7message2 : '메시지2',
+                app7_p1 : 20,
+                app7UlFlag : false
+            },
+            methods : {
+                app7Button1Click : function() {
+                    alert('app7Button1Click');
+                },
+                app7Button2Click : function() {
+                    this.app7UlFlag = !this.app7UlFlag;
+                }
+            }
+        });
+
+        
     </script>
 </body>
 </html>

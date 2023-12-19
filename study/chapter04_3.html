@@ -22,7 +22,7 @@
         new Vue({
             el : '#app',
             methods: {
-                getData : ()=> {
+                getData : function() {
                     this.$http.get(`https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.json`)
                     .then(function(response) {
                         // response가 문자열로 들어온다..
@@ -36,7 +36,7 @@
         new Vue({
             el : '#app2',
             methods: {
-                getData : ()=> {
+                getData : function() {
                     axios.get(`https://raw.githubusercontent.com/joshua1988/doit-vuejs/master/data/demo.json`)
                     .then(function(response) {
                         // response가 객체 형태로 들어온다..
