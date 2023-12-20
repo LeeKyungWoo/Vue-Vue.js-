@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뷰 CLI</title>
+</head>
+<body>
+    <div id="app">
+        <h1>싱글 파일 컴포넌트 체계</h1>
+        <P>.vue 파일 프로젝트 구조를 구성하는 방식을 말합니다.</P>
+        <p>확장자 .vue 파일 1개는 뷰 어플리케이션을 구성하는 1개의 컴포넌트와 동일합니다.</p>
+        <p>.vue 파일은 아래와 같은 기본 구조를 가집니다.</p>
+        <span>
+            template 영역 : HTML 태그내용(화면에 표시할 요소들을 정의하는 영역, 예 : HTML+뷰 데이터 바인딩)
+            script 영역 : 자바스크립트 내용(뷰 컴포넌트의 내용을 정의하는 영역, 예 : template, data, methods 등)
+            style 영역 : css 스타일 내용(템플릿에 추가한 html 태그의 css 스타일을 정의하는 영역)
+            <br>
+            &nbsp;&nbsp;&lt;template&gt;
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HTML 태그 내용
+            <br>
+            &nbsp;&nbsp;&lt;/template&gt;
+            <br>
+            &nbsp;&nbsp;&lt;script&gt;
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자바 스크립트 내용
+            <br>
+            &nbsp;&nbsp;&lt;/script&gt;
+            <br>
+            &nbsp;&nbsp;&lt;style&gt;
+            <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CSS 스타일 내용    
+            <br>
+            &nbsp;&nbsp;&lt;/style&gt;
+        </span>
+        
+        <h1>뷰 CLI</h1>
+        <p>싱글 컴포넌트 체계를 사용하기 위해서는 .vue 파일을 웹브라우저가 인식할 수 있는 형태로 변환줘야 합니다, 뷰는 뷰 코어팀에서 CLI 도구를 제공합니다. CLI는 커멘드 창에서 명령어로 특정 동작을 수행할 수 있는 도구인데, CLI에서 제공하는 명령어를 이용하면 뷰 어플리케이션을 개발하기 위한 초기 프로젝트 구졸르 쉽게 구성할 수 있습니다.</p>
+        <p>뷰 CLI 명렁어<p>
+        <ul>
+            <li>vue init webapck : 고급 웹팩 기능을 활용한 프로젝트 구성 방식, 테스팅, 문법 검사 등을 지원</li>
+            <li>vue init webpack-simple : 웹팩 최소 기능을 활용한 프로젝트 구성 방식, 빠른 화면 프로토타이핑용</li>
+            <li>vue init browserify : 고급 브라우저리파이 기능을 활용한 프로젝트 구성 방식, 테스팅, 문법 검사 등을 지원</li>
+            <li>vue init browserify-simple : 브라우저리파이 최소 기능을 활용한 프로젝트 구성 방식, 빠른 화면 프로토타이핑용</li>
+            <li>vue init simple : 최소 뷰 기능만 들어간 HTML 파일 1개 생성</li>
+            <li>vue init pwa : 웹팩 기반의 프로그레시브 웹 앱 기능을 지원하는 뷰 프로젝트</li>
+        </ul> 
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script> <!-- 뷰 리소스 CDN-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!-- 엑시오스 라이브러리-->
+    
+    <script>
+
+
+    </script>
+</body>
+</html>
